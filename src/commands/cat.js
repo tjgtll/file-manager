@@ -1,5 +1,5 @@
 import fs from "fs";
-
+import { handlerError } from "../utils/handlerError.js";
 export const cat = async (filePath) => {
   const readStream = fs.createReadStream(filePath, { encoding: "utf8" });
 
@@ -12,7 +12,7 @@ export const cat = async (filePath) => {
   });
 
   readStream.on("error", (error) => {
-    console.error(`Error reading file: ${error}`);
+    handlerError(error);
   });
 
   readStream.on("end", () => {

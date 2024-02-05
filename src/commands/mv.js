@@ -1,14 +1,26 @@
 import { createReadStream, createWriteStream } from "fs";
 import { rm } from "fs/promises";
 import path from "path";
-
-export const mv = async (sourcePath, targetDirectory) => {
+import { handlerError } from "../utils/handlerError.js";
+export const mv = async (sourcePath, targetDirectory, curr) => {
   try {
     const fileName = path.basename(sourcePath);
-    const targetPath = path.join(targetDirectory, fileName);
+    let fullTargetPath = targetDirectory;
+    if (!path.isAbsolute(targetDirectory)) {
+      fullTargetPath = path.join(curr, targetDirectory);
+    }
+
+    const targetPath = path.join(fullTargetPath, fileName);
 
     const readable = createReadStream(sourcePath);
     const writable = createWriteStream(targetPath);
+    readable.on("error", (err) => {
+      handlerError(err);
+    });
+
+    writable.on("error", (err) => {
+      handlerError(err);
+    });
 
     readable.pipe(writable);
 
@@ -18,10 +30,12 @@ export const mv = async (sourcePath, targetDirectory) => {
           await rm(sourcePath);
           console.log(`File moved successfully to ${targetPath}`);
           resolve();
-        } catch (error) {
-          reject(error);
+        } catch (err) {
+          handlerError(err);
         }
       });
     });
-  } catch (error) {}
+  } catch (err) {
+    handlerError(err);
+  }
 };

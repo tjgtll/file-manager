@@ -1,6 +1,6 @@
 import { writeFile } from "fs/promises";
 import path from "path";
-
+import { handlerError } from "../utils/handlerError.js";
 export const add = async (currentDir, fileName) => {
   try {
     const filePath = path.join(currentDir, fileName);
@@ -8,7 +8,7 @@ export const add = async (currentDir, fileName) => {
     console.log(`File '${fileName}' created successfully in '${currentDir}'.`);
     return filePath;
   } catch (error) {
-    console.error("Error occurred while creating file:", error);
+    handlerError(error);
     return null;
   }
 };

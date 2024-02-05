@@ -1,15 +1,31 @@
 import fs from "fs";
 import zlib from "zlib";
 import path from "path";
-export const compress = async (sourcePath, destinationDirectory) => {
+import { handlerError } from "../utils/handlerError.js";
+export const compress = async (sourcePath, targetDirectory, curr) => {
   try {
     const fileName = path.basename(sourcePath);
-    const destinationPath = path.join(destinationDirectory, `${fileName}.gz`);
-    console.log(destinationPath);
+    let fullTargetPath = targetDirectory;
+    if (!path.isAbsolute(targetDirectory)) {
+      fullTargetPath = path.join(curr, targetDirectory);
+    }
+
+    const destinationPath = path.join(fullTargetPath, `${fileName}.gz`);
+
     const readStream = fs.createReadStream(sourcePath);
     const writeStream = fs.createWriteStream(destinationPath);
     const brotli = zlib.createBrotliCompress();
+    readStream.on("error", (err) => {
+      handlerError(err);
+    });
 
+    writeStream.on("error", (err) => {
+      handlerError(err);
+    });
+
+    brotli.on("error", (err) => {
+      handlerError(err);
+    });
     readStream.pipe(brotli).pipe(writeStream);
 
     await new Promise((resolve, reject) => {
@@ -19,6 +35,6 @@ export const compress = async (sourcePath, destinationDirectory) => {
 
     console.log(`File ${sourcePath} was compressed to ${destinationPath}`);
   } catch (error) {
-    console.error("Error compressing file:", error);
+    handlerError(error);
   }
 };
