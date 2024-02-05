@@ -1,10 +1,9 @@
 import { createReadStream, createWriteStream } from "fs";
-import { join } from "path";
+import path from "path";
 
 export const cp = (sourcePath, targetDirectory) => {
-  const fileName = sourcePath.split("\\").pop();
-  console.log(fileName, targetDirectory);
-  const targetPath = join(targetDirectory, fileName);
+  const fileName = path.basename(sourcePath);
+  const targetPath = path.join(targetDirectory, fileName);
 
   const readStream = createReadStream(sourcePath);
   const writeStream = createWriteStream(targetPath);
