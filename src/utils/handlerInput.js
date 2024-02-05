@@ -12,6 +12,7 @@ import { cp } from "../commands/cp.js";
 import { mv } from "../commands/mv.js";
 import { cat } from "../commands/cat.js";
 import { add } from "../commands/add.js";
+import { hash } from "../commands/hash.js";
 
 export const handlerInput = async (line, currentDir) => {
   const commandArr = line.trim().split(" ");
@@ -63,6 +64,9 @@ export const handlerInput = async (line, currentDir) => {
       break;
     case "os":
       await handleOSCommand(args);
+      break;
+    case "hash":
+      await hash(path.resolve(currentDir.path, args[0]));
       break;
     default:
       console.log("Invalid input");
