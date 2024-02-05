@@ -1,6 +1,5 @@
 import path from "path";
 import { removeQuotes } from "./removeQuotes.js";
-import { processArgument } from "./argumentUtils.js";
 import { printCurrentDirectory } from "./printCurrentDirectory.js";
 import { handlerOSCommand } from "./handlerOSCommand.js";
 import { ls } from "../commands/ls.js";
