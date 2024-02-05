@@ -4,6 +4,7 @@ import { printCurrentDirectory } from "./printCurrentDirectory.js";
 import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
+import { rn } from "../commands/rn.js";
 import { cat } from "../commands/cat.js";
 import { add } from "../commands/add.js";
 
@@ -37,6 +38,14 @@ export const handlerInput = async (line, currentDir) => {
       break;
     case "add":
       add(currentDir.path, args[0]);
+      break;
+    case "rn":
+      await rn(
+        currentDir.path + "\\" + args[0],
+        currentDir.path + "\\" + args[1]
+      );
+      break;
+    case "rn":
       break;
     default:
       console.log("Invalid input");
