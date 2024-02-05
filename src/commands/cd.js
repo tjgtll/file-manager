@@ -3,10 +3,10 @@ import { access, constants } from "fs/promises";
 
 export const cd = async (currentDir, destination) => {
   try {
-    const newDir = path.resolve(currentDir, destination);
+    const newDir = path.resolve(currentDir.path, destination);
     await access(newDir, constants.R_OK | constants.W_OK);
-    return newDir;
+    currentDir.path = newDir;
   } catch (error) {
-    return null;
+    return;
   }
 };

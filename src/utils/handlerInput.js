@@ -29,14 +29,7 @@ export const handlerInput = async (line, currentDir) => {
       currentDir.path = up(currentDir.path);
       break;
     case "cd":
-      try {
-        const newDir = await cd(currentDir.path, processArgument(args[0]));
-        if (newDir !== null) {
-          currentDir.path = newDir;
-        }
-      } catch (error) {
-        console.error("An error occurred while changing directory:", error);
-      }
+      await cd(currentDir, processArgument(args[0]));
       break;
     case "ls":
       ls(currentDir.path);
@@ -78,6 +71,7 @@ export const handlerInput = async (line, currentDir) => {
       await decompress(path.resolve(currentDir.path, args[0]), args[1]);
       break;
     case ".exit":
+
     default:
       console.log("Invalid input");
       break;
