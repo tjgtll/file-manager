@@ -2,6 +2,7 @@ import path from "path";
 import { removeQuotes } from "./removeQuotes.js";
 import { processArgument } from "./argumentUtils.js";
 import { printCurrentDirectory } from "./printCurrentDirectory.js";
+import { handleOSCommand } from "./handleOSCommand.js";
 import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
@@ -59,6 +60,9 @@ export const handlerInput = async (line, currentDir) => {
       break;
     case "rm":
       await rm(path.resolve(currentDir.path, args[0]));
+      break;
+    case "os":
+      await handleOSCommand(args);
       break;
     default:
       console.log("Invalid input");
