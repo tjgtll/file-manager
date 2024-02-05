@@ -6,6 +6,7 @@ import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
 import { rn } from "../commands/rn.js";
+import { rm } from "../commands/rm.js";
 import { cp } from "../commands/cp.js";
 import { mv } from "../commands/mv.js";
 import { cat } from "../commands/cat.js";
@@ -55,6 +56,9 @@ export const handlerInput = async (line, currentDir) => {
     //mv t.txt c:\Users\user\desktop
     case "mv":
       await mv(path.resolve(currentDir.path, args[0]), args[1]);
+      break;
+    case "rm":
+      await rm(path.resolve(currentDir.path, args[0]));
       break;
     default:
       console.log("Invalid input");
