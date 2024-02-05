@@ -1,3 +1,4 @@
+import path from "path";
 import { removeQuotes } from "./removeQuotes.js";
 import { processArgument } from "./argumentUtils.js";
 import { printCurrentDirectory } from "./printCurrentDirectory.js";
@@ -5,6 +6,7 @@ import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
 import { rn } from "../commands/rn.js";
+import { cp } from "../commands/cp.js";
 import { cat } from "../commands/cat.js";
 import { add } from "../commands/add.js";
 
@@ -45,7 +47,9 @@ export const handlerInput = async (line, currentDir) => {
         currentDir.path + "\\" + args[1]
       );
       break;
-    case "rn":
+    //cp t.txt c:\Users\user\desktop
+    case "cp":
+      await cp(path.resolve(currentDir.path, args[0]), args[1]);
       break;
     default:
       console.log("Invalid input");
