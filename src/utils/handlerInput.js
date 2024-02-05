@@ -3,6 +3,7 @@ import { removeQuotes } from "./removeQuotes.js";
 import { processArgument } from "./argumentUtils.js";
 import { printCurrentDirectory } from "./printCurrentDirectory.js";
 import { handlerOSCommand } from "./handlerOSCommand.js";
+import { handlerError } from "./handlerError.js";
 import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
@@ -20,23 +21,22 @@ export const handlerInput = async (line, currentDir, rl) => {
   const commandArr = line.trim().split(" ");
   const command = commandArr[0];
   const args = removeQuotes(commandArr.slice(1));
-  printCurrentDirectory(currentDir.path);
 
   switch (command) {
     case "test":
       console.log("This is a test command");
       break;
     case "up":
-      currentDir.path = up(currentDir.path);
+      await up(currentDir);
       break;
     case "cd":
-      await cd(currentDir, processArgument(args[0]));
+      await cd(currentDir, args[0]);
       break;
     case "ls":
       ls(currentDir.path);
       break;
     case "cat":
-      cat(currentDir.path + "\\" + args[0]);
+      cat(path.resolve(currentDir.path, args[0]));
       break;
     case "add":
       add(currentDir.path, args[0]);
