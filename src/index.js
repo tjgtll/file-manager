@@ -19,7 +19,7 @@ const start = async () => {
   printCurrentDirectory(currentDir.path);
 
   rl.on("line", (line) => {
-    handlerInput(line, currentDir);
+    handlerInput(line, currentDir, rl);
   }).on("close", () => {
     console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
   });

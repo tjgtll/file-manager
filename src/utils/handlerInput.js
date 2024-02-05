@@ -16,10 +16,11 @@ import { hash } from "../commands/hash.js";
 import { compress } from "../commands/compress.js";
 import { decompress } from "../commands/decompress.js";
 
-export const handlerInput = async (line, currentDir) => {
+export const handlerInput = async (line, currentDir, rl) => {
   const commandArr = line.trim().split(" ");
   const command = commandArr[0];
   const args = removeQuotes(commandArr.slice(1));
+  printCurrentDirectory(currentDir.path);
 
   switch (command) {
     case "test":
@@ -42,8 +43,8 @@ export const handlerInput = async (line, currentDir) => {
       break;
     case "rn":
       await rn(
-        currentDir.path + "\\" + args[0],
-        currentDir.path + "\\" + args[1]
+        path.resolve(currentDir.path, args[0]),
+        path.resolve(currentDir.path, args[1])
       );
       break;
     //cp t.txt c:\Users\user\desktop
@@ -71,10 +72,10 @@ export const handlerInput = async (line, currentDir) => {
       await decompress(path.resolve(currentDir.path, args[0]), args[1]);
       break;
     case ".exit":
-
+      rl.close();
+      break;
     default:
       console.log("Invalid input");
       break;
   }
-  printCurrentDirectory(currentDir.path);
 };
