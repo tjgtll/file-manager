@@ -100,7 +100,6 @@ export const handlerInput = async (line, currentDir, rl) => {
         }
         await hash(path.resolve(currentDir.path, args[0]));
         break;
-      //compress t.txt c:\Users\user\desktop
       case "compress":
         if (numArgs < 2) {
           throw new Error(
