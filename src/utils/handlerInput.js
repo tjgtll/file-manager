@@ -5,6 +5,7 @@ import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
 import { cat } from "../commands/cat.js";
+import { add } from "../commands/add.js";
 
 export const handlerInput = async (line, currentDir) => {
   const commandArr = line.trim().split(" ");
@@ -32,9 +33,10 @@ export const handlerInput = async (line, currentDir) => {
       ls(currentDir.path);
       break;
     case "cat":
-      let filePath = currentDir.path + "\\" + args[0];
-      console.log(args[0]);
-      cat(filePath);
+      cat(currentDir.path + "\\" + args[0]);
+      break;
+    case "add":
+      add(currentDir.path, args[0]);
       break;
     default:
       console.log("Invalid input");
