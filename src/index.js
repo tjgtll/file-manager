@@ -1,5 +1,5 @@
 import readline from "readline";
-
+import { handlerInput } from "./utils/handlerInput.js";
 const start = async () => {
   const args = process.argv.slice(2);
   const username =
@@ -16,7 +16,9 @@ const start = async () => {
 
   rl.prompt();
 
-  rl.on("line", (line) => {}).on("close", () => {
+  rl.on("line", (line) => {
+    handlerInput(line);
+  }).on("close", () => {
     console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
   });
 };
