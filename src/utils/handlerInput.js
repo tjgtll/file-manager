@@ -13,6 +13,8 @@ import { mv } from "../commands/mv.js";
 import { cat } from "../commands/cat.js";
 import { add } from "../commands/add.js";
 import { hash } from "../commands/hash.js";
+import { compress } from "../commands/compress.js";
+import { decompress } from "../commands/decompress.js";
 
 export const handlerInput = async (line, currentDir) => {
   const commandArr = line.trim().split(" ");
@@ -68,6 +70,14 @@ export const handlerInput = async (line, currentDir) => {
     case "hash":
       await hash(path.resolve(currentDir.path, args[0]));
       break;
+    //compress t.txt c:\Users\user\desktop
+    case "compress":
+      await compress(path.resolve(currentDir.path, args[0]), args[1]);
+      break;
+    case "decompress":
+      await decompress(path.resolve(currentDir.path, args[0]), args[1]);
+      break;
+    case ".exit":
     default:
       console.log("Invalid input");
       break;
