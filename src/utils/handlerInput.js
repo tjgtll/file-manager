@@ -2,7 +2,7 @@ import path from "path";
 import { removeQuotes } from "./removeQuotes.js";
 import { processArgument } from "./argumentUtils.js";
 import { printCurrentDirectory } from "./printCurrentDirectory.js";
-import { handleOSCommand } from "./handleOSCommand.js";
+import { handlerOSCommand } from "./handlerOSCommand.js";
 import { ls } from "../commands/ls.js";
 import { up } from "../commands/up.js";
 import { cd } from "../commands/cd.js";
@@ -59,7 +59,7 @@ export const handlerInput = async (line, currentDir, rl) => {
       await rm(path.resolve(currentDir.path, args[0]));
       break;
     case "os":
-      await handleOSCommand(args);
+      await handlerOSCommand(args);
       break;
     case "hash":
       await hash(path.resolve(currentDir.path, args[0]));
